@@ -1,0 +1,20 @@
+{
+  "name": "jquery",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "type": "module",
+  "engines": {
+    "node": "^21"
+  },
+  "scripts": {
+    "test": "node --test",
+    "test-converage": "node --test --experimental-test-coverage"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jsdom": "^24.0.0"
+  }
+}
