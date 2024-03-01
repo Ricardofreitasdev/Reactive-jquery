@@ -5,28 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recriando o Jquery com classes Javascript</title>
-    <link rel="shortcut icon" href="./favicon.ico">
+    <link rel="shortcut icon" href="./public/favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 </head>
 
 <body>
-    <button>get data</button>
-    <div id="response"></div>
+    <div class="container">
+        <button>Buscar dados com o Jquery personalizado</button>
+        <div id="response"></div>
+    </div>
 
     <script type="module">
-        import { $ } from "./jquery.js";
+        import { $ } from "./src/Jquery.js";
 
-        $("button").on("click", () => {
+        $("button").on("click", async () => {
             $('#response').append('<div class="loading">Carregando...</div>');
 
-            $.ajax({
-                url: 'https://jsonplaceholder.typicode.com/todos/1',
-            }).then((data) => {
-                $('.loading').remove();
-                $('#response').append(data?.title);
-            }).catch(error => {
-                $('.loading').remove();
+            try {
+                const data = await $.ajax({
+                    url: 'https://jsonplaceholder.typicode.com/todos/1',
+                })
+                $('#response').append(`<pre>${JSON.stringify(data)}</pre>`).addClass('active');
+            } catch (error) {
                 console.error('Erro ao receber dados:', error);
-            });
+            } finally {
+                $('.loading').remove();
+            }
         })
     </script>
 </body>
