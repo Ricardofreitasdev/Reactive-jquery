@@ -13,6 +13,7 @@ module.exports = {
         indent: ['error', 4],
         quotes: ['error', 'single'],
         'no-undef': 'off', 
+        'max-len': ['error', { 'code': 90 }]
     },
 
 };

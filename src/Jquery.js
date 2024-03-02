@@ -2,6 +2,7 @@ import Ajax from './domain/Ajax.js';
 import DomEvents from './domain/DomEvents.js';
 import DomManipulator from './domain/DomManipulator.js';
 import StylesManipulator from './domain/StylesManipulator.js';
+import { reactive } from './domain/Reactive.js';
 
 /**
  * Classe que representa uma biblioteca simplificada similar ao jQuery,
@@ -38,8 +39,8 @@ class JQuery {
 
     /**
      * Adiciona um manipulador de eventos a todos os elementos selecionados.
-     * @param {string} eventType - O tipo de evento a ser tratado, como 'click' ou 'mouseover'.
-     * @param {Function} handler - O manipulador de eventos a ser executado quando o evento ocorrer.
+     * @param {string} eventType - O tipo de evento a ser tratado.
+     * @param {Function} handler - O manipulador de eventos a ser executado.
      * @returns {JQuery} - A própria instância de JQuery para encadeamento de métodos.
      */
     on(eventType, handler) {
@@ -53,6 +54,11 @@ class JQuery {
      */
     remove() {
         DomManipulator.removeContent(this.elements);
+        return this;
+    }
+
+    reactive(obj, templateId) {
+        reactive(this.elements, obj, templateId);
         return this;
     }
 }
