@@ -7,6 +7,8 @@
     <title>Recriando o Jquery com reatividade</title>
     <link rel="shortcut icon" href="./public/favicon.ico">
     <link rel="stylesheet" href="style.css">
+    <!-- <script src="./dist/reactive-jquery.js"></script> -->
+    <script src="./dist/reactive-jquery.min.js"></script>
 </head>
 
 <body class="container">
@@ -25,7 +27,8 @@
                 <td>% $tipPrice</td>
                 <td>
                     <button data-action="incrementTip">+</button>
-                    <button :style="$shouldInactiveButton ? 'display: none' : 'display: inline'"
+                    <button
+                        :style="$shouldInactiveButton ? 'display: none' : 'display: inline'"
                         data-action="decrementTip">-</button>
                 </td>
             </tr>
@@ -35,49 +38,6 @@
             </tr>
         </table>
     </template>
-
-    <script type="module">
-        import { $ } from "./src/Jquery.js";
-
-        $('.container')
-            .append('<div id="app"></div>')
-
-        $('#app').reactive({
-            templateId: '#dinner-table-template',
-            config: {
-                data: {
-                    dinnerPrice: 100,
-                    tipPrice: 10,
-                },
-                actions: {
-                    incrementDinner: function () {
-                        this.dinnerPrice++;
-                    },
-                    decrementDinner: function () {
-                        this.dinnerPrice--;
-                    },
-                    incrementTip: function () {
-                        this.tipPrice++;
-                    },
-                    decrementTip: function () {
-                        this.tipPrice--;
-                    },
-                },
-                computed: {
-                    total: function () {
-                        const total = this.dinnerPrice + (this.dinnerPrice * this.tipPrice / 100);
-                        return total.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
-
-                    },
-                    shouldInactiveButton: function () {
-                        return this.tipPrice <= 0;
-                    }
-                }
-            },
-            persist: true
-        });
-
-    </script>
+    <script src="./app.js"></script>
 </body>
-
 </html>

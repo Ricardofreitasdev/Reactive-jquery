@@ -86,3 +86,4 @@ const jQueryInstance = (selector) => new JQuery(selector);
 Object.setPrototypeOf(jQueryInstance, Ajax);
 
 export const $ = jQueryInstance;
+window.$ = jQueryInstance;
