@@ -1,33 +1,45 @@
-# Recriando o jQuery com Classes JavaScript
+# Reactive jQuery
 
-Este é um projeto que visa recriar funcionalidades básicas do jQuery utilizando classes JavaScript.
-
-## Instalação
-
-Clone este repositório para o seu computador e instale as dependências do projeto.
-
-## Uso
-
-Execute os testes para garantir que tudo está funcionando corretamente e execute o projeto.
+O Reactive jQuery é um projeto de estudo que permite criar interfaces web reativas de forma simples e fácil, utilizando jQuery.
 
 ## Funcionalidades
 
-- **Seleção de Elementos**: Permite selecionar elementos do DOM usando seletores CSS.
-- **Adição de Classes**: Adiciona uma ou mais classes aos elementos selecionados.
+- **Template Reativo**: Os dados são vinculados ao template HTML, atualizando automaticamente a interface quando o estado muda.
+- **Persistência de Estado**: AO estado da aplicação pode ser persistido no armazenamento local do navegador, permitindo que os dados sejam mantidos entre sessões.
 - **Manipulação do DOM**: Inclui funcionalidades para adicionar conteúdo, manipular classes e lidar com eventos.
 
 ## Exemplo de Uso
 
+```html
+<head>
+    <script src="https://ricardofreitasdev.github.io/Reactive-jquery/dist/reactive-jquery.min.js"></script>
+</head>
+<body>
+    <template id="button-template">
+        <p>$count</p>
+        <button data-action="add">+1 no contador</button>
+    </template>
+</body>
+```
+
 ```javascript
-import { $ } from "./jquery.js";
+<script>
+    $('body')
+        .append('<div id="app"></div>')
 
-// Selecionar elementos e adicionar uma classe
-$("button").addClass("btn-primary");
-
-// Adicionar conteúdo a um elemento
-$("#response").append("<p>Conteúdo adicionado dinamicamente</p>");
-
-// Manipular eventos
-$("button").on("click", () => {
-    console.log("Botão clicado!");
-});
+    $('#app').reactive({
+        templateId: '#button-template',
+        config: {
+            data: {
+                count: 0,
+            },
+            actions: {
+                add: function () {
+                    this.count++;
+                },
+            },
+            computed:{},
+            persist: true
+        }
+    });
+</script>
