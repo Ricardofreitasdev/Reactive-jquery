@@ -2,7 +2,7 @@ import Ajax from './domain/Ajax.js';
 import DomEvents from './domain/DomEvents.js';
 import DomManipulator from './domain/DomManipulator.js';
 import StylesManipulator from './domain/StylesManipulator.js';
-import { reactive } from './domain/Reactive.js';
+import Reactive from './domain/Reactive.js';
 
 /**
  * Classe que representa uma biblioteca simplificada similar ao jQuery,
@@ -57,8 +57,27 @@ class JQuery {
         return this;
     }
 
-    reactive(obj, templateId) {
-        reactive(this.elements, obj, templateId);
+    /**
+     * Cria um componente reativo associado a um elemento do DOM.
+     * @param {string} templateId - O ID do elemento do DOM que contém o template HTML.
+     * @param {Object} config.data - Os dados iniciais do componente reativo.
+     * @param {Object} config.actions - As ações que podem ser executadas no
+     * componente reativo.
+     * @param {Object} config.computed - As computações que derivam dos dados do
+     * componente reativo.
+     * @param {boolean} [persist] - Um indicador opcional para persistir os
+     * dados do componente no localStorage.
+     */
+    reactive({ templateId, config, persist = false }) {
+        new Reactive(
+            config.data,
+            config.actions,
+            config.computed,
+            this.elements,
+            templateId,
+            persist
+        );
+
         return this;
     }
 }

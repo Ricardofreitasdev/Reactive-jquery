@@ -4,73 +4,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recriando o Jquery com classes Javascript</title>
+    <title>Recriando o Jquery com reatividade</title>
     <link rel="shortcut icon" href="./public/favicon.ico">
     <link rel="stylesheet" href="style.css">
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 </head>
 
-<body>
-    <template id="button-template">
-        <p>Instancia reativa 1</p>
-        <p>$count</p>
-        <button data-action="click">+1 no counter</button>
+<body class="container">
+    <template id="dinner-table-template">
+        <table>
+            <tr>
+                <td>Jantar:</td>
+                <td>R$ $dinnerPrice</td>
+                <td>
+                    <button data-action="incrementDinner">+</button>
+                    <button data-action="decrementDinner">-</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Taxa de Garçom:</td>
+                <td>% $tipPrice</td>
+                <td>
+                    <button data-action="incrementTip">+</button>
+                    <button :style="$shouldInactiveButton ? 'display: none' : 'display: inline'"
+                        data-action="decrementTip">-</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Total:</td>
+                <td colspan="2">$total</td>
+            </tr>
+        </table>
     </template>
-
-    <template id="button-template-2">
-        <p>Instancia reativa 2</p>
-        <p>$count</p>
-        <button data-action="click">+1 no counter</button>
-    </template>
-
-    <div class="container">
-        <button class="button">Buscar dados com o Jquery personalizado</button>
-        <div id="response"></div>
-    </div>
-    
 
     <script type="module">
         import { $ } from "./src/Jquery.js";
-        
+
         $('.container')
             .append('<div id="app"></div>')
-            .append('<div id="app2"></div>')
 
-        $("#app").reactive({
-            state: {
-                count: 0,
-            },
-            actions: {
-                click: function () {
-                    this.state.count++;
+        $('#app').reactive({
+            templateId: '#dinner-table-template',
+            config: {
+                data: {
+                    dinnerPrice: 100,
+                    tipPrice: 10,
                 },
-            }
-        },'#button-template');
-
-        $("#app2").reactive({
-            state: {
-                count: 0,
-            },
-            actions: {
-                click: function () {
-                    this.state.count++;
+                actions: {
+                    incrementDinner: function () {
+                        this.dinnerPrice++;
+                    },
+                    decrementDinner: function () {
+                        this.dinnerPrice--;
+                    },
+                    incrementTip: function () {
+                        this.tipPrice++;
+                    },
+                    decrementTip: function () {
+                        this.tipPrice--;
+                    },
                 },
-            }
-        },'#button-template-2');
+                computed: {
+                    total: function () {
+                        const total = this.dinnerPrice + (this.dinnerPrice * this.tipPrice / 100);
+                        return total.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
 
-        $(".button").on("click", async () => {
-            $('#response').append('<div class="loading">Carregando...</div>');
-            try {
-                const data = await $.ajax({
-                    url: 'https://jsonplaceholder.typicode.com/todos/1',
-                })
-                $('#response').append(`<pre>${JSON.stringify(data)}</pre>`).addClass('active');
-            } catch (error) {
-                console.error('Erro ao receber dados:', error);
-            } finally {
-                $('.loading').remove();
-            }
+                    },
+                    shouldInactiveButton: function () {
+                        return this.tipPrice <= 0;
+                    }
+                }
+            },
+            persist: true
         });
+
     </script>
 </body>
 

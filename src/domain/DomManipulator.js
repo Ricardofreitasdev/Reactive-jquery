@@ -20,4 +20,14 @@ export default class DomManipulator {
 
         return elements;
     }
+
+    static getReactiveTemplate(templateId) {
+        const template = document.querySelector(templateId).innerHTML;
+
+        if (!template) {
+            console.error('Nenhum elemento encontrado para o seletor:', templateId);
+        }
+
+        return template;
+    }
 }
